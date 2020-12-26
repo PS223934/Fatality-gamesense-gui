@@ -6,13 +6,40 @@ local xpos = 200
 local ypos = 200
 local opac = 0
 local bpac = 0
-local lpac = 0
-                                                                                                                --Menuindc.Ax01/2 = 184
-local startpos = {
-AxNav = 160, AyNav = 32,
-Ax1 = 160, Ay1 = 32,
-Ax2 = 230, Ay2 = 32,
-Ax3 = 320, Ay3 = 32,
+local lpac = 0 
+local gpac = 30
+
+local RageReference = {
+
+}
+
+local VisualReference = {
+
+}
+
+local MiscReference = {
+    MenuKey = ui.reference("MISC", "Settings", "Menu key")
+}
+
+local InventoryReference = {
+
+}
+
+local LegitReference = {
+
+}
+
+
+
+
+
+
+local startpos = {      
+DRegionx = 0, DRegiony = 0,
+AxNav = 160, AyNav = 32,                                --First letter (uppercase) defines row (example: A = ActiveTab)                                             
+Ax1 = 160, Ay1 = 32,                                    --Second letter (lowercase) defines axis (example: Ax = ActiveTab, x axis)                                  
+Ax2 = 230, Ay2 = 32,                                    --Third digit defines item (example: Ax1 = ActiveTab, x axis, RAGE)                                         
+Ax3 = 320, Ay3 = 32,                                                                                                                                                
 Ax4 = 380, Ay4 = 32,
 Ax5 = 492, Ay5 = 32,
 
@@ -22,6 +49,7 @@ Cx1 = 52, Cy1 = 144
 }
 
 local endpos = {
+DRegionx = 761, DRegiony = 30,
 AxNav = 540, AyNav = 47,
 Ax1 = 210, Ay1 = 47,
 Ax2 = 303, Ay2 = 47,
@@ -35,19 +63,26 @@ Bx1 = 107, By1 = 130,
 Cx1 = 110, Cy1 = 163
 }
 
-local MenuIndc = {
-Ax01 = 159, Ay01 = 50, Ax11 = 209, Ay11 = 50,
+local MenuIndc = {                                          --positioning of all Active tabs.
+Ax01 = 159, Ay01 = 50, Ax11 = 209, Ay11 = 50,               --(end position line - start position line) : 2 + start position line
 Ax02 = 267, Ay02 = 50, Ax12 = 267, Ay12 = 50,
 Ax03 = 341, Ay03 = 50, Ax13 = 341, Ay13 = 50,
 Ax04 = 428, Ay04 = 50, Ax14 = 428, Ay14 = 50,
-Ax05 = 515, Ay05 = 50, Ax15 = 515, Ay15 = 50
+Ax05 = 516, Ay05 = 50, Ax15 = 516, Ay15 = 50
 
 
 }
 
+local DRegion = {
 
+
+
+
+}
 
 HoverA = false  
+gstateb = false
+CheckMState = false
 
 RAGEop = 30
 VISUALSop = 30
@@ -59,8 +94,7 @@ ActiveTab = "RAGE"
 ActiveSubTab = "AIMBOT"
 ActiveHover = "NONE"
 
-
-switch = function(check)
+switch = function(check)                                        --P4ST3D FR0M https://pastebin.com/MxhirT7Z
     return function(cases)
         if type(cases[check]) == "function" then
             return cases[check]()
@@ -84,7 +118,7 @@ local function MenuAnimation()
     if opac == 175 then
         return
     else
-    opac = opac + 5
+        opac = opac + 5
     end
 end
 
@@ -92,104 +126,266 @@ local function ElementAnimation()
     if lpac == 102 then
         return
     else    
-    lpac = lpac + 3
+        lpac = lpac + 3
     end
 end
 
+local function GradientAnimation()
 
-local function CheckHoverState()
-    
-    switch(ActiveHover) {
-        RAGE = function() 
+    if gstateb == false then
+            gpac = gpac + 0.20
 
-            if VISUALSop >= 32 then
-                VISUALSop = VISUALSop - 3
-            elseif MISCop >= 32 then
-                MISCop = MISCop - 3
-            elseif INVENTORYop >= 32 then
-                INVENTORYop = INVENTORYop - 3
-            elseif LEGITop >= 32 then
-                LEGITop = LEGITop - 3
-            end
-        end,
+    elseif gstateb == true then
+            gpac = gpac - 0.20
+    end
+end
 
-        VISUALS = function() 
+local function CheckAnimState()                 
 
-            if RAGEop >= 32 then
-                RAGEop = RAGEop - 3
-            elseif MISCop >= 32 then
-                MISCop = MISCop - 3
-            elseif INVENTORYop >= 32 then
-                INVENTORYop = INVENTORYop - 3
-            elseif LEGITop >= 32 then
-                LEGITop = LEGITop - 3
-            end
-        end,
+    if SelectChangedA == false and HoverA == false then
+        return
+    else
+        if SelectChangedA == true then
+            client.color_log(123, 194, 21, ActiveTab)
+            
+            switch(ActiveTab) {
+                
+                RAGE = function()
+                    if MenuIndc.Ax02 == 267 and MenuIndc.Ax03 == 341 and MenuIndc.Ax04 == 428 and MenuIndc.Ax05 == 516 then
+                        SelectChangedA = false
+                    else
 
-        MISC = function() 
+                        if MenuIndc.Ax02 <= 266 then
+                            MenuIndc.Ax02 = MenuIndc.Ax02 + 1
+                            MenuIndc.Ax12 = MenuIndc.Ax12 - 1
+                        end
 
-            if RAGEop >= 32 then
-                RAGEop = RAGEop - 3
-            elseif VISUALSop >= 32 then
-                VISUALSop = VISUALSop - 3
-            elseif INVENTORYop >= 32 then
-                INVENTORYop = INVENTORYop - 3
-            elseif LEGITop >= 32 then
-                LEGITop = LEGITop - 3
-            end
-        end,
+                        if MenuIndc.Ax03 <= 340 then
+                            MenuIndc.Ax03 = MenuIndc.Ax03 + 1
+                            MenuIndc.Ax13 = MenuIndc.Ax13 - 1
+                        end
 
-        INVENTORY = function() 
+                        if MenuIndc.Ax04 <= 426.25 then
+                            MenuIndc.Ax04 = MenuIndc.Ax04 + 1.75
+                            MenuIndc.Ax14 = MenuIndc.Ax14 - 1.75
+                        end
 
-            if RAGEop >= 32 then
-                RAGEop = RAGEop - 3
-            elseif VISUALSop >= 32 then
-                VISUALSop = VISUALSop - 3
-            elseif MISCop >= 32 then
-                MISCop = MISCop - 3
-            elseif LEGITop >= 32 then
-                LEGITop = LEGITop - 3
-            end
-        end,
+                        if MenuIndc.Ax05 <= 515 then
+                            MenuIndc.Ax05 = MenuIndc.Ax05 + 1
+                            MenuIndc.Ax15 = MenuIndc.Ax15 - 1
+                        end
 
-        LEGIT = function() 
+                    end
+                end,
+                
+                VISUALS = function() 
+                    if MenuIndc.Ax01 == 184 and MenuIndc.Ax02 == 230 and MenuIndc.Ax03 == 341 and MenuIndc.Ax04 == 428 and MenuIndc.Ax05 == 516 then
+                        SelectChangedA = false
+                    else
 
-            if RAGEop >= 32 then
-                RAGEop = RAGEop - 3
-            elseif VISUALSop >= 32 then
-                VISUALSop = VISUALSop - 3
-            elseif MISCop >= 32 then
-                MISCop = MISCop - 3
-            elseif INVENTORYop >= 32 then
-                INVENTORYop = INVENTORYop - 3
-            end
-        end,
+                        if MenuIndc.Ax01 <= 183 then
+                            MenuIndc.Ax01 = MenuIndc.Ax01 + 1
+                            MenuIndc.Ax11 = MenuIndc.Ax11 - 1
+                        end
 
-        NONE = function()
-            if RAGEop >= 32 then
-                RAGEop = RAGEop - 3
-            elseif VISUALSop >= 32 then
-                VISUALSop = VISUALSop - 3
-            elseif MISCop >= 32 then
-                MISCop = MISCop - 3
-            elseif INVENTORYop >= 32 then
-                INVENTORYop = INVENTORYop - 3
-            elseif LEGITop >= 32 then
-                LEGITop = LEGITop - 3
-            end
+                        if MenuIndc.Ax03 <= 340 then
+                            MenuIndc.Ax03 = MenuIndc.Ax03 + 1
+                            MenuIndc.Ax13 = MenuIndc.Ax13 - 1
+                        end
+
+                        if MenuIndc.Ax04 <= 426.25 then
+                            MenuIndc.Ax04 = MenuIndc.Ax04 + 1.75
+                            MenuIndc.Ax14 = MenuIndc.Ax14 - 1.75
+                        end
+
+                        if MenuIndc.Ax05 <= 515 then
+                            MenuIndc.Ax05 = MenuIndc.Ax05 + 1
+                            MenuIndc.Ax15 = MenuIndc.Ax15 - 1
+                        end
+
+                    end
+                end,
+        
+                MISC = function()
+                    if MenuIndc.Ax01 == 184 and MenuIndc.Ax02 == 267 and MenuIndc.Ax03 == 319 and MenuIndc.Ax04 == 428 and MenuIndc.Ax05 == 516 then
+                        SelectChangedA = false
+                    else
+
+                        if MenuIndc.Ax01 <= 183 then
+                            MenuIndc.Ax01 = MenuIndc.Ax01 + 1
+                            MenuIndc.Ax11 = MenuIndc.Ax11 - 1
+                        end
+
+                        if MenuIndc.Ax02 <= 266 then
+                            MenuIndc.Ax02 = MenuIndc.Ax02 + 1
+                            MenuIndc.Ax12 = MenuIndc.Ax12 - 1
+                        end
+
+                        if MenuIndc.Ax04 <= 426.25 then
+                            MenuIndc.Ax04 = MenuIndc.Ax04 + 1.75
+                            MenuIndc.Ax14 = MenuIndc.Ax14 - 1.75
+                        end
+
+                        if MenuIndc.Ax05 <= 515 then
+                            MenuIndc.Ax05 = MenuIndc.Ax05 + 1
+                            MenuIndc.Ax15 = MenuIndc.Ax15 - 1
+                        end
+
+                    end
+                end,
+            
+                INVENTORY = function()
+                    if MenuIndc.Ax01 == 184 and MenuIndc.Ax02 == 267 and MenuIndc.Ax03 == 341 and MenuIndc.Ax04 == 379 and MenuIndc.Ax05 == 516 then
+                        SelectChangedA = false
+                    else
+                        
+                        if MenuIndc.Ax01 <= 183 then
+                            MenuIndc.Ax01 = MenuIndc.Ax01 + 1
+                            MenuIndc.Ax11 = MenuIndc.Ax11 - 1
+                        end
+
+                        if MenuIndc.Ax02 <= 266 then
+                            MenuIndc.Ax02 = MenuIndc.Ax02 + 1
+                            MenuIndc.Ax12 = MenuIndc.Ax12 - 1
+                        end
+
+                        if MenuIndc.Ax03 <= 340 then
+                            MenuIndc.Ax03 = MenuIndc.Ax03 + 1
+                            MenuIndc.Ax13 = MenuIndc.Ax13 - 1
+                        end
+
+                        if MenuIndc.Ax05 <= 515 then
+                            MenuIndc.Ax05 = MenuIndc.Ax05 + 1
+                            MenuIndc.Ax15 = MenuIndc.Ax15 - 1
+                        end
+                    end
+                end,
+                    
+                LEGIT = function()
+                    if MenuIndc.Ax01 == 184 and MenuIndc.Ax02 == 267 and MenuIndc.Ax03 == 341 and MenuIndc.Ax04 == 428 and MenuIndc.Ax05 == 491 then
+                        SelectChangedA = false
+                    else
+
+                        if MenuIndc.Ax01 <= 183 then
+                            MenuIndc.Ax01 = MenuIndc.Ax01 + 1
+                            MenuIndc.Ax11 = MenuIndc.Ax11 - 1
+                        end
+
+                        if MenuIndc.Ax02 <= 266 then
+                            MenuIndc.Ax02 = MenuIndc.Ax02 + 1
+                            MenuIndc.Ax12 = MenuIndc.Ax12 - 1
+                        end
+
+                        if MenuIndc.Ax03 <= 340 then
+                            MenuIndc.Ax03 = MenuIndc.Ax03 + 1
+                            MenuIndc.Ax13 = MenuIndc.Ax13 - 1
+                        end
+
+                        if MenuIndc.Ax04 <= 426.25 then
+                            MenuIndc.Ax04 = MenuIndc.Ax04 + 1.75
+                            MenuIndc.Ax14 = MenuIndc.Ax14 - 1.75
+                        end
+
+                    end
+                end   
+            }
         end
-    }
+
+        if HoverA == true then
+            switch(ActiveHover) {
+
+                RAGE = function() 
+
+                    if VISUALSop >= 32 then
+                        VISUALSop = VISUALSop - 3
+                    elseif MISCop >= 32 then
+                        MISCop = MISCop - 3
+                    elseif INVENTORYop >= 32 then
+                        INVENTORYop = INVENTORYop - 3
+                    elseif LEGITop >= 32 then
+                        LEGITop = LEGITop - 3
+                    end
+                end,
+
+                VISUALS = function() 
+
+                    if RAGEop >= 32 then
+                        RAGEop = RAGEop - 3
+                    elseif MISCop >= 32 then
+                        MISCop = MISCop - 3
+                    elseif INVENTORYop >= 32 then
+                        INVENTORYop = INVENTORYop - 3
+                    elseif LEGITop >= 32 then
+                        LEGITop = LEGITop - 3
+                    end
+                end,
+
+                MISC = function() 
+
+                    if RAGEop >= 32 then
+                        RAGEop = RAGEop - 3
+                    elseif VISUALSop >= 32 then
+                        VISUALSop = VISUALSop - 3
+                    elseif INVENTORYop >= 32 then
+                        INVENTORYop = INVENTORYop - 3
+                    elseif LEGITop >= 32 then
+                        LEGITop = LEGITop - 3
+                    end
+                end,
+
+                INVENTORY = function() 
+
+                    if RAGEop >= 32 then
+                        RAGEop = RAGEop - 3
+                    elseif VISUALSop >= 32 then
+                        VISUALSop = VISUALSop - 3
+                    elseif MISCop >= 32 then
+                        MISCop = MISCop - 3
+                    elseif LEGITop >= 32 then
+                        LEGITop = LEGITop - 3
+                    end
+                end,
+
+                LEGIT = function() 
+
+                    if RAGEop >= 32 then
+                        RAGEop = RAGEop - 3
+                    elseif VISUALSop >= 32 then
+                        VISUALSop = VISUALSop - 3
+                    elseif MISCop >= 32 then
+                        MISCop = MISCop - 3
+                    elseif INVENTORYop >= 32 then
+                        INVENTORYop = INVENTORYop - 3
+                    end
+                end,
+
+                NONE = function()
+
+                    if RAGEop >= 32 then
+                        RAGEop = RAGEop - 3
+                    elseif VISUALSop >= 32 then
+                        VISUALSop = VISUALSop - 3
+                    elseif MISCop >= 32 then
+                        MISCop = MISCop - 3
+                    elseif INVENTORYop >= 32 then
+                        INVENTORYop = INVENTORYop - 3
+                    elseif LEGITop >= 32 then
+                        LEGITop = LEGITop - 3
+                    end
+                end
+            }
+        end
+    end    
 end
 
 local function MainHover()
 
     if HoverA == true then
-
-        CheckHoverState()
-
+        CheckAnimState()    
         switch(ActiveHover) {
 
             RAGE = function() 
+                
                 if ActiveTab == RAGE or RAGEop >= 254 then
                     return
                 else
@@ -199,6 +395,7 @@ local function MainHover()
             end,
 
             VISUALS = function() 
+                
                 if ActiveTab == VISUALS or VISUALSop >= 254 then
                     return
                 else
@@ -208,6 +405,7 @@ local function MainHover()
             end,
 
             MISC = function() 
+                
                 if ActiveTab == MISC or MISCop >= 254 then
                     return
                 else
@@ -217,6 +415,7 @@ local function MainHover()
             end,
 
             INVENTORY = function() 
+                
                 if ActiveTab == INVENTORY or INVENTORYop >= 254 then
                     return
                 else
@@ -226,6 +425,7 @@ local function MainHover()
             end,
 
             LEGIT = function() 
+                
                 if ActiveTab == LEGIT or LEGITop >= 254 then
                     return
                 else
@@ -241,64 +441,24 @@ local function MainHover()
     
     elseif HoverA == false then
 
-        CheckHoverState()
-
-        switch(ActiveHover) {
-
-            RAGE = function() 
-                if ActiveTab == RAGE or RAGEop <= 33 then
-                    return
-                else
-
-                    RAGEop = RAGEop - 3
-                end
-            end,
-
-            VISUALS = function() 
-                if ActiveTab == VISUALS or VISUALSop <= 33 then
-                    return
-                else
-
-                    VISUALSop = VISUALSop - 3
-                end
-            end,
-
-            MISC = function() 
-                if ActiveTab == MISC or MISCop <= 33 then
-                    return
-                else
-
-                    MISCop = MISCop - 3
-                end
-            end,
-
-            INVENTORY = function() 
-                if ActiveTab == INVENTORY or INVENTORYop <= 33 then
-                    return
-                else
-
-                    INVENTORYop = INVENTORYop - 3
-                end
-            end,
-
-            LEGIT = function() 
-                if ActiveTab == LEGIT or LEGITop <= 33 then
-                    return
-                else
-
-                    LEGITop = LEGITop - 3
-                end
-            end,
-
-            NONE = function()
-                return
-            end
-        }
+        if RAGEop >= 32 then
+            RAGEop = RAGEop - 3
+        elseif VISUALSop >= 32 then
+            VISUALSop = VISUALSop - 3
+        elseif MISCop >= 32 then
+            MISCop = MISCop - 3
+        elseif INVENTORYop >= 32 then
+            INVENTORYop = INVENTORYop - 3
+        elseif LEGITop >= 32 then
+            LEGITop = LEGITop - 3
+        end
     end
 end
 
 
+local function Dragging()
 
+end
 
 local function HoverAnimationA()
 
@@ -331,39 +491,47 @@ local function ChangeActiveTab()
             if ActiveTab == RAGE then
                 return
             else
+                SelectChangedA = true
                 ActiveTab = "RAGE"
-              --  MenuIndc.Ax01 = 184,5
             end
         end,
 
         VISUALS = function() 
+
             if ActiveTab == VISUALS then
                 return
             else
+                SelectChangedA = true
                 ActiveTab = "VISUALS"
             end
         end,
 
         MISC = function() 
+
             if ActiveTab == MISC then
                 return
             else
+                SelectChangedA = true
                 ActiveTab = "MISC"
             end
         end,
 
         INVENTORY = function() 
+
             if ActiveTab == INVENTORY then
                 return
             else
+                SelectChangedA = true
                 ActiveTab = "INVENTORY"
             end
         end,
 
         LEGIT = function() 
+
             if ActiveTab == LEGIT then
                 return
             else
+                SelectChangedA = true
                 ActiveTab = "LEGIT"
             end
         end,
@@ -372,9 +540,14 @@ local function ChangeActiveTab()
             return
         end
     }
+
+    CheckMState = true 
 end
 
+
+
 local function ClickAnimationA()
+    
     switch(ActiveTab) {
         RAGE = function()
             if MenuIndc.Ax01 == 159 and MenuIndc.Ax11 == 209 then
@@ -386,7 +559,7 @@ local function ClickAnimationA()
         end,
         
         VISUALS = function() 
-            if MenuIndc.Ax02 == 229.5 and MenuIndc.Ax12 == 302 then
+            if MenuIndc.Ax02 == 230 and MenuIndc.Ax12 == 304 then
                 return
             else
                 MenuIndc.Ax02 = MenuIndc.Ax02 - 1
@@ -395,7 +568,7 @@ local function ClickAnimationA()
         end,
 
         MISC = function()
-            if MenuIndc.Ax03 == 319 and MenuIndc.Ax13 == 359 then
+            if MenuIndc.Ax03 == 319 and MenuIndc.Ax13 == 363 then
                 return
             else
                 MenuIndc.Ax03 = MenuIndc.Ax03 - 1
@@ -404,16 +577,16 @@ local function ClickAnimationA()
         end,
     
         INVENTORY = function()
-            if MenuIndc.Ax04 == 379.5 and MenuIndc.Ax14 == 476 then
+            if MenuIndc.Ax04 == 379 and MenuIndc.Ax14 == 477 then
                 return
             else
-                MenuIndc.Ax04 = MenuIndc.Ax04 - 1
-                MenuIndc.Ax14 = MenuIndc.Ax14 + 1
+                MenuIndc.Ax04 = MenuIndc.Ax04 - 1.75
+                MenuIndc.Ax14 = MenuIndc.Ax14 + 1.75
             end
         end,
             
         LEGIT = function()
-            if MenuIndc.Ax05 == 491 and MenuIndc.Ax15 == 539 then
+            if MenuIndc.Ax05 == 491 and MenuIndc.Ax15 == 541 then
                 return
             else
                 MenuIndc.Ax05 = MenuIndc.Ax05 - 1
@@ -434,7 +607,7 @@ local function DrawMenu(x, y, w, h, r, g, b, a)
     surface.draw_text(xpos + 15, ypos + 26, 255, 0, 0, 255, MainFont, "FATALITY")
     surface.draw_text(xpos + 17, ypos + 28, 0, 0, 255, 255, MainFont, "FATALITY")
     surface.draw_text(xpos + 16, ypos + 27, 255, 255, 255, 255, MainFont, "FATALITY")
-    surface.draw_filled_gradient_rect(xpos, ypos + 11, 762, 2, 0, 0, 150, 50, 255, 0, 0, 50, true)
+    surface.draw_filled_gradient_rect(xpos, ypos + 11, 762, 2, 0, 0, 100, gpac, 210, 7, 91, gpac, true)
     surface.draw_filled_rect(xpos, ypos, 762, 11, 29, 24, 63, bpac)
     surface.draw_text(xpos + 160, ypos + 32, 255, 255, 255, RAGEop, TabFont, "RAGE")
     surface.draw_text(xpos + 230, ypos + 32, 255, 255, 255, VISUALSop, TabFont, "VISUALS")
@@ -508,48 +681,56 @@ local function DrawMenu(x, y, w, h, r, g, b, a)
 
         VISUALS = function() 
             surface.draw_text(xpos + 230, ypos + 32, 255, 255, 255, 255, TabFont, "VISUALS")
-            client.color_log(123, 194, 21, "VISUALS")
         end,
 
         MISC = function()
             surface.draw_text(xpos + 320, ypos + 32, 255, 255, 255, 255, TabFont, "MISC")
-            client.color_log(123, 194, 21, "MISC")
         end,
 
         INVENTORY = function()
             surface.draw_text(xpos + 380, ypos + 32, 255, 255, 255, 255, TabFont, "INVENTORY")
-            client.color_log(123, 194, 21, "INVENTORY")
         end,
         
         LEGIT = function()
             surface.draw_text(xpos + 492, ypos + 32, 255, 255, 255, 255, TabFont, "LEGIT")
-            client.color_log(123, 194, 21, "LEGIT")
         end
     }
 end 
 
 local function OnFrame()    
+    
     if ui.is_menu_open() then
         DrawMenu()
         MenuAnimation()
         ElementAnimation()
         BackgroundAnimation()
+        GradientAnimation()
         MainHover()
         ClickAnimationA()
+        CheckAnimState() 
+
 
         local LClick = client.key_state(0x01)
         local mousepos = { ui.mouse_position() }
+        rawmouseposX = mousepos[1]
+        rawmouseposY = mousepos[2]
         mouseposX = mousepos[1] - xpos
         mouseposY = mousepos[2] -ypos
-    --  client.color_log(123, 194, 21, mouseposX)
-    --  client.color_log(123, 194, 21, mouseposY)
+        client.color_log(123, 194, 21, mouseposX)
+        client.color_log(123, 194, 21, mouseposY)
 
-        if LClick == true then
+        if LClick == true and CheckMState == false then
             ChangeActiveTab()
+
+            if mouseposY >= startpos.DRegiony and mouseposY <= endpos.DRegiony and mouseposX >= startpos.DRegionx and mouseposX <= endpos.DRegionx then
+                Dragging()
+            end
+            
+        elseif LClick == false then
+            CheckMState = false
         end
 
         if mouseposY >= startpos.AyNav and mouseposY <= endpos.AyNav and mouseposX >= startpos.AxNav and mouseposX <= endpos.AxNav then
-            client.color_log(123, 194, 21, "yes")
             HoverA = true
             HoverAnimationA()
         else
@@ -557,10 +738,21 @@ local function OnFrame()
             ActiveHover = "NONE"
         end
 
+        if gpac >= 229.9 then
+            gstateb = true
+        end
+    
+        if gpac >= 29.9 and gpac <= 30.1 then
+            gstateb = false
+        end
+    
     else
         opac = 0
         lpac = 0
         bpac = 0
+        gpac = 30
+        gstateb = false
+        CheckMState = true
     end 
 end
 
