@@ -1,6 +1,7 @@
 local surface = require "gamesense/surface"
-local MainFont = surface.create_font("JosefinSans-VariableFont_wght", 28, 700, 0x010)
-local TabFont = surface.create_font("JosefinSans-VariableFont_wght", 18, 600, 0x010)
+local MainFont = surface.create_font("JosefinSans-VariableFont_wght", 26, 900, 0x010)
+local TabFont = surface.create_font("JosefinSans-VariableFont_wght", 17, 600, 0x010)
+local InSubFont = surface.create_font("JosefinSans-VariableFont_wght", 10, 500, 0x010)
 local WeaponFont = surface.create_font("astriumwep", 21, 1, 0x010)
 local xpos = 200
 local ypos = 200
@@ -36,12 +37,12 @@ local LegitReference = {
 
 local startpos = {      
 DRegionx = 0, DRegiony = 0,
-AxNav = 160, AyNav = 32,                                --First letter (uppercase) defines row (example: A = ActiveTab)                                             
-Ax1 = 160, Ay1 = 32,                                    --Second letter (lowercase) defines axis (example: Ax = ActiveTab, x axis)                                  
-Ax2 = 230, Ay2 = 32,                                    --Third digit defines item (example: Ax1 = ActiveTab, x axis, RAGE)                                         
-Ax3 = 320, Ay3 = 32,                                                                                                                                                
-Ax4 = 380, Ay4 = 32,
-Ax5 = 492, Ay5 = 32,
+AxNav = 160, AyNav = 37,                                --First letter (uppercase) defines row (example: A = ActiveTab)                                             
+Ax1 = 160, Ay1 = 37,                                    --Second letter (lowercase) defines axis (example: Ax = ActiveTab, x axis)                                  
+Ax2 = 222, Ay2 = 37,                                    --Third digit defines item (example: Ax1 = ActiveTab, x axis, RAGE)                                         
+Ax3 = 303, Ay3 = 37,                                                                                                                                                
+Ax4 = 356, Ay4 = 37,
+Ax5 = 462, Ay5 = 37,
 
 Bx1 = 17, By1 = 98,
 
@@ -49,13 +50,13 @@ Cx1 = 52, Cy1 = 144
 }
 
 local endpos = {
-DRegionx = 761, DRegiony = 30,
-AxNav = 540, AyNav = 47,
-Ax1 = 210, Ay1 = 47,
-Ax2 = 303, Ay2 = 47,
-Ax3 = 360, Ay3 = 47,
-Ax4 = 477, Ay4 = 47,
-Ax5 = 540, Ay5 = 47,
+DRegionx = 800, DRegiony = 30,
+AxNav = 508, AyNav = 50,
+Ax1 = 206, Ay1 = 50,
+Ax2 = 288, Ay2 = 50,
+Ax3 = 341, Ay3 = 50,
+Ax4 = 446, Ay4 = 50,
+Ax5 = 508, Ay5 = 50,
 
 
 Bx1 = 107, By1 = 130,
@@ -63,22 +64,16 @@ Bx1 = 107, By1 = 130,
 Cx1 = 110, Cy1 = 163
 }
 
-local MenuIndc = {                                          --positioning of all Active tabs.
-Ax01 = 159, Ay01 = 50, Ax11 = 209, Ay11 = 50,               --(end position line - start position line) : 2 + start position line
-Ax02 = 267, Ay02 = 50, Ax12 = 267, Ay12 = 50,
-Ax03 = 341, Ay03 = 50, Ax13 = 341, Ay13 = 50,
-Ax04 = 428, Ay04 = 50, Ax14 = 428, Ay14 = 50,
-Ax05 = 516, Ay05 = 50, Ax15 = 516, Ay15 = 50
+local MenuIndc = {                                          --middle pos of all ActiveTab lines. (ex. Ax01)
+Ax01 = 159, Ay01 = 55, Ax11 = 207, Ay11 = 55,               --(end position line - start position line) : 2 + start position line
+Ax02 = 255, Ay02 = 55, Ax12 = 255, Ay12 = 55,
+Ax03 = 322, Ay03 = 55, Ax13 = 322, Ay13 = 55,
+Ax04 = 401, Ay04 = 55, Ax14 = 401, Ay14 = 55,
+Ax05 = 485, Ay05 = 55, Ax15 = 485, Ay15 = 55
 
 
 }
 
-local DRegion = {
-
-
-
-
-}
 
 HoverA = false  
 gstateb = false
@@ -115,7 +110,7 @@ end
 
 
 local function MenuAnimation()
-    if opac == 175 then
+    if opac == 200 then
         return
     else
         opac = opac + 5
@@ -151,26 +146,26 @@ local function CheckAnimState()
             switch(ActiveTab) {
                 
                 RAGE = function()
-                    if MenuIndc.Ax02 == 267 and MenuIndc.Ax03 == 341 and MenuIndc.Ax04 == 428 and MenuIndc.Ax05 == 516 then
+                    if MenuIndc.Ax01 == 159 and MenuIndc.Ax02 == 255 and MenuIndc.Ax03 == 322 and MenuIndc.Ax04 == 401 and MenuIndc.Ax05 == 485 then
                         SelectChangedA = false
                     else
 
-                        if MenuIndc.Ax02 <= 266 then
+                        if MenuIndc.Ax02 <= 254 then
                             MenuIndc.Ax02 = MenuIndc.Ax02 + 1
                             MenuIndc.Ax12 = MenuIndc.Ax12 - 1
                         end
 
-                        if MenuIndc.Ax03 <= 340 then
+                        if MenuIndc.Ax03 <= 321 then
                             MenuIndc.Ax03 = MenuIndc.Ax03 + 1
                             MenuIndc.Ax13 = MenuIndc.Ax13 - 1
                         end
 
-                        if MenuIndc.Ax04 <= 426.25 then
-                            MenuIndc.Ax04 = MenuIndc.Ax04 + 1.75
-                            MenuIndc.Ax14 = MenuIndc.Ax14 - 1.75
+                        if MenuIndc.Ax04 <= 400 then
+                            MenuIndc.Ax04 = MenuIndc.Ax04 + 1
+                            MenuIndc.Ax14 = MenuIndc.Ax14 - 1
                         end
 
-                        if MenuIndc.Ax05 <= 515 then
+                        if MenuIndc.Ax05 <= 484 then
                             MenuIndc.Ax05 = MenuIndc.Ax05 + 1
                             MenuIndc.Ax15 = MenuIndc.Ax15 - 1
                         end
@@ -179,26 +174,26 @@ local function CheckAnimState()
                 end,
                 
                 VISUALS = function() 
-                    if MenuIndc.Ax01 == 184 and MenuIndc.Ax02 == 230 and MenuIndc.Ax03 == 341 and MenuIndc.Ax04 == 428 and MenuIndc.Ax05 == 516 then
+                    if MenuIndc.Ax01 == 183 and MenuIndc.Ax02 == 221 and MenuIndc.Ax03 == 322 and MenuIndc.Ax04 == 401 and MenuIndc.Ax05 == 485 then
                         SelectChangedA = false
                     else
 
-                        if MenuIndc.Ax01 <= 183 then
+                        if MenuIndc.Ax01 <= 182 then
                             MenuIndc.Ax01 = MenuIndc.Ax01 + 1
                             MenuIndc.Ax11 = MenuIndc.Ax11 - 1
                         end
 
-                        if MenuIndc.Ax03 <= 340 then
+                        if MenuIndc.Ax03 <= 321 then
                             MenuIndc.Ax03 = MenuIndc.Ax03 + 1
                             MenuIndc.Ax13 = MenuIndc.Ax13 - 1
                         end
 
-                        if MenuIndc.Ax04 <= 426.25 then
-                            MenuIndc.Ax04 = MenuIndc.Ax04 + 1.75
-                            MenuIndc.Ax14 = MenuIndc.Ax14 - 1.75
+                        if MenuIndc.Ax04 <= 400 then
+                            MenuIndc.Ax04 = MenuIndc.Ax04 + 1
+                            MenuIndc.Ax14 = MenuIndc.Ax14 - 1
                         end
 
-                        if MenuIndc.Ax05 <= 515 then
+                        if MenuIndc.Ax05 <= 484 then
                             MenuIndc.Ax05 = MenuIndc.Ax05 + 1
                             MenuIndc.Ax15 = MenuIndc.Ax15 - 1
                         end
@@ -207,26 +202,26 @@ local function CheckAnimState()
                 end,
         
                 MISC = function()
-                    if MenuIndc.Ax01 == 184 and MenuIndc.Ax02 == 267 and MenuIndc.Ax03 == 319 and MenuIndc.Ax04 == 428 and MenuIndc.Ax05 == 516 then
+                    if MenuIndc.Ax01 == 183 and MenuIndc.Ax02 == 255 and MenuIndc.Ax03 == 322 and MenuIndc.Ax04 == 401 and MenuIndc.Ax05 == 485 then
                         SelectChangedA = false
                     else
 
-                        if MenuIndc.Ax01 <= 183 then
+                        if MenuIndc.Ax01 <= 182 then
                             MenuIndc.Ax01 = MenuIndc.Ax01 + 1
                             MenuIndc.Ax11 = MenuIndc.Ax11 - 1
                         end
 
-                        if MenuIndc.Ax02 <= 266 then
+                        if MenuIndc.Ax02 <= 254 then
                             MenuIndc.Ax02 = MenuIndc.Ax02 + 1
                             MenuIndc.Ax12 = MenuIndc.Ax12 - 1
                         end
 
-                        if MenuIndc.Ax04 <= 426.25 then
-                            MenuIndc.Ax04 = MenuIndc.Ax04 + 1.75
-                            MenuIndc.Ax14 = MenuIndc.Ax14 - 1.75
+                        if MenuIndc.Ax04 <= 400 then
+                            MenuIndc.Ax04 = MenuIndc.Ax04 + 1
+                            MenuIndc.Ax14 = MenuIndc.Ax14 - 1
                         end
 
-                        if MenuIndc.Ax05 <= 515 then
+                        if MenuIndc.Ax05 <= 484 then
                             MenuIndc.Ax05 = MenuIndc.Ax05 + 1
                             MenuIndc.Ax15 = MenuIndc.Ax15 - 1
                         end
@@ -235,26 +230,26 @@ local function CheckAnimState()
                 end,
             
                 INVENTORY = function()
-                    if MenuIndc.Ax01 == 184 and MenuIndc.Ax02 == 267 and MenuIndc.Ax03 == 341 and MenuIndc.Ax04 == 379 and MenuIndc.Ax05 == 516 then
+                    if MenuIndc.Ax01 == 183 and MenuIndc.Ax02 == 255 and MenuIndc.Ax03 == 322 and MenuIndc.Ax04 == 355 and MenuIndc.Ax05 == 485 then
                         SelectChangedA = false
                     else
                         
-                        if MenuIndc.Ax01 <= 183 then
+                        if MenuIndc.Ax01 <= 182 then
                             MenuIndc.Ax01 = MenuIndc.Ax01 + 1
                             MenuIndc.Ax11 = MenuIndc.Ax11 - 1
                         end
 
-                        if MenuIndc.Ax02 <= 266 then
+                        if MenuIndc.Ax02 <= 254 then
                             MenuIndc.Ax02 = MenuIndc.Ax02 + 1
                             MenuIndc.Ax12 = MenuIndc.Ax12 - 1
                         end
 
-                        if MenuIndc.Ax03 <= 340 then
+                        if MenuIndc.Ax03 <= 321 then
                             MenuIndc.Ax03 = MenuIndc.Ax03 + 1
                             MenuIndc.Ax13 = MenuIndc.Ax13 - 1
                         end
 
-                        if MenuIndc.Ax05 <= 515 then
+                        if MenuIndc.Ax05 <= 484 then
                             MenuIndc.Ax05 = MenuIndc.Ax05 + 1
                             MenuIndc.Ax15 = MenuIndc.Ax15 - 1
                         end
@@ -262,28 +257,28 @@ local function CheckAnimState()
                 end,
                     
                 LEGIT = function()
-                    if MenuIndc.Ax01 == 184 and MenuIndc.Ax02 == 267 and MenuIndc.Ax03 == 341 and MenuIndc.Ax04 == 428 and MenuIndc.Ax05 == 491 then
+                    if MenuIndc.Ax01 == 183 and MenuIndc.Ax02 == 255 and MenuIndc.Ax03 == 322 and MenuIndc.Ax04 == 401 and MenuIndc.Ax05 == 461 then
                         SelectChangedA = false
                     else
 
-                        if MenuIndc.Ax01 <= 183 then
+                        if MenuIndc.Ax01 <= 182 then
                             MenuIndc.Ax01 = MenuIndc.Ax01 + 1
                             MenuIndc.Ax11 = MenuIndc.Ax11 - 1
                         end
 
-                        if MenuIndc.Ax02 <= 266 then
+                        if MenuIndc.Ax02 <= 254 then
                             MenuIndc.Ax02 = MenuIndc.Ax02 + 1
                             MenuIndc.Ax12 = MenuIndc.Ax12 - 1
                         end
 
-                        if MenuIndc.Ax03 <= 340 then
+                        if MenuIndc.Ax03 <= 321 then
                             MenuIndc.Ax03 = MenuIndc.Ax03 + 1
                             MenuIndc.Ax13 = MenuIndc.Ax13 - 1
                         end
 
-                        if MenuIndc.Ax04 <= 426.25 then
-                            MenuIndc.Ax04 = MenuIndc.Ax04 + 1.75
-                            MenuIndc.Ax14 = MenuIndc.Ax14 - 1.75
+                        if MenuIndc.Ax04 <= 400 then
+                            MenuIndc.Ax04 = MenuIndc.Ax04 + 1
+                            MenuIndc.Ax14 = MenuIndc.Ax14 - 1
                         end
 
                     end
@@ -457,6 +452,8 @@ end
 
 
 local function Dragging()
+    xpos = rawmouseposX - mouseposX 
+    ypos = rawmouseposY - mouseposY
 
 end
 
@@ -550,7 +547,7 @@ local function ClickAnimationA()
     
     switch(ActiveTab) {
         RAGE = function()
-            if MenuIndc.Ax01 == 159 and MenuIndc.Ax11 == 209 then
+            if MenuIndc.Ax01 == 159 and MenuIndc.Ax11 == 207 then
                 return
             else
                 MenuIndc.Ax01 = MenuIndc.Ax01 - 1
@@ -559,7 +556,7 @@ local function ClickAnimationA()
         end,
         
         VISUALS = function() 
-            if MenuIndc.Ax02 == 230 and MenuIndc.Ax12 == 304 then
+            if MenuIndc.Ax02 == 221 and MenuIndc.Ax12 == 289 then
                 return
             else
                 MenuIndc.Ax02 = MenuIndc.Ax02 - 1
@@ -568,7 +565,7 @@ local function ClickAnimationA()
         end,
 
         MISC = function()
-            if MenuIndc.Ax03 == 319 and MenuIndc.Ax13 == 363 then
+            if MenuIndc.Ax03 == 302 and MenuIndc.Ax13 == 342 then
                 return
             else
                 MenuIndc.Ax03 = MenuIndc.Ax03 - 1
@@ -577,16 +574,16 @@ local function ClickAnimationA()
         end,
     
         INVENTORY = function()
-            if MenuIndc.Ax04 == 379 and MenuIndc.Ax14 == 477 then
+            if MenuIndc.Ax04 == 355 and MenuIndc.Ax14 == 447 then
                 return
             else
-                MenuIndc.Ax04 = MenuIndc.Ax04 - 1.75
-                MenuIndc.Ax14 = MenuIndc.Ax14 + 1.75
+                MenuIndc.Ax04 = MenuIndc.Ax04 - 1
+                MenuIndc.Ax14 = MenuIndc.Ax14 + 1
             end
         end,
             
         LEGIT = function()
-            if MenuIndc.Ax05 == 491 and MenuIndc.Ax15 == 541 then
+            if MenuIndc.Ax05 == 461 and MenuIndc.Ax15 == 509 then
                 return
             else
                 MenuIndc.Ax05 = MenuIndc.Ax05 - 1
@@ -596,24 +593,26 @@ local function ClickAnimationA()
     }
 end
 
+--local function ClickAnimationB()
+  --  switch(ActiveSubTab) {
+
+ ----   }
+--end
+
 local function DrawMenu(x, y, w, h, r, g, b, a)
-    surface.draw_filled_rect(xpos - 1, ypos - 1, 764, 622, 59, 58, 82, lpac)
-    surface.draw_filled_rect(xpos, ypos, 762, 620, 19, 14, 33, bpac)
-    surface.draw_filled_rect(xpos, ypos, 762, 67, 29, 24, 63, opac)
-    surface.draw_filled_rect(xpos + 16.5, ypos + 89, 729, 42, 59, 58, 82, opac)
-    surface.draw_filled_rect(xpos + 17.5, ypos + 90, 727, 40, 29, 24, 63, bpac)
-    surface.draw_outlined_rect(xpos + 16.5, ypos + 130, 729, 474, 59, 58, 82, opac)
-    surface.draw_filled_rect(xpos + 17.5, ypos + 131, 727, 473, 29, 24, 63, lpac)
-    surface.draw_text(xpos + 15, ypos + 26, 255, 0, 0, 255, MainFont, "FATALITY")
-    surface.draw_text(xpos + 17, ypos + 28, 0, 0, 255, 255, MainFont, "FATALITY")
-    surface.draw_text(xpos + 16, ypos + 27, 255, 255, 255, 255, MainFont, "FATALITY")
-    surface.draw_filled_gradient_rect(xpos, ypos + 11, 762, 2, 0, 0, 100, gpac, 210, 7, 91, gpac, true)
-    surface.draw_filled_rect(xpos, ypos, 762, 11, 29, 24, 63, bpac)
-    surface.draw_text(xpos + 160, ypos + 32, 255, 255, 255, RAGEop, TabFont, "RAGE")
-    surface.draw_text(xpos + 230, ypos + 32, 255, 255, 255, VISUALSop, TabFont, "VISUALS")
-    surface.draw_text(xpos + 320, ypos + 32, 255, 255, 255, MISCop, TabFont, "MISC")
-    surface.draw_text(xpos + 380, ypos + 32, 255, 255, 255, INVENTORYop, TabFont, "INVENTORY")
-    surface.draw_text(xpos + 492, ypos + 32, 255, 255, 255, LEGITop, TabFont, "LEGIT")
+    surface.draw_outlined_rect(xpos - 1, ypos - 1, 802, 652, 59, 58, 100, bpac)
+    surface.draw_filled_rect(xpos, ypos, 800, 650, 19, 14, 33, bpac)
+    surface.draw_filled_rect(xpos, ypos, 800, 72, 29, 24, 63, opac)
+    surface.draw_text(xpos + 15, ypos + 30, 255, 0, 0, 150, MainFont, "FATALITY")
+    surface.draw_text(xpos + 17, ypos + 32, 0, 0, 255, 150, MainFont, "FATALITY")
+    surface.draw_text(xpos + 16, ypos + 31, 255, 255, 255, 255, MainFont, "FATALITY")
+    surface.draw_filled_gradient_rect(xpos, ypos + 16, 800, 2, 59, 58, 255, gpac, 255, 0, 10, gpac, true)
+    surface.draw_filled_rect(xpos, ypos, 800, 16, 29, 24, 63, bpac)
+    surface.draw_text(xpos + 160, ypos + 37, 255, 255, 255, RAGEop, TabFont, "RAGE")
+    surface.draw_text(xpos + 222, ypos + 37, 255, 255, 255, VISUALSop, TabFont, "VISUALS")
+    surface.draw_text(xpos + 303, ypos + 37, 255, 255, 255, MISCop, TabFont, "MISC")
+    surface.draw_text(xpos + 356, ypos + 37, 255, 255, 255, INVENTORYop, TabFont, "INVENTORY")
+    surface.draw_text(xpos + 462, ypos + 37, 255, 255, 255, LEGITop, TabFont, "LEGIT")
     surface.draw_line(xpos + MenuIndc.Ax01, ypos + MenuIndc.Ay01, xpos + MenuIndc.Ax11, ypos + MenuIndc.Ay11, 210, 7, 91, opac)
     surface.draw_line(xpos + MenuIndc.Ax02, ypos + MenuIndc.Ay02, xpos + MenuIndc.Ax12, ypos + MenuIndc.Ay12, 210, 7, 91, opac)
     surface.draw_line(xpos + MenuIndc.Ax03, ypos + MenuIndc.Ay03, xpos + MenuIndc.Ax13, ypos + MenuIndc.Ay13, 210, 7, 91, opac)
@@ -624,26 +623,32 @@ local function DrawMenu(x, y, w, h, r, g, b, a)
     switch(ActiveTab) {
 
         RAGE = function()
+            surface.draw_filled_rect(xpos + 15, ypos + 88, 770, 550, 29, 24, 63, lpac)
+            surface.draw_outlined_rect(xpos + 15, ypos + 87, 772, 550, 59, 58, 100, opac)
+            surface.draw_filled_rect(xpos + 15, ypos + 87, 772, 33, 59, 58, 100, opac)
+            surface.draw_filled_rect(xpos + 16, ypos + 88, 770, 31, 29, 24, 63, bpac)
+            surface.draw_text(xpos + 160, ypos + 37, 255, 255, 255, 255, TabFont, "RAGE")
+            surface.draw_text(xpos + 30, ypos + 94, 255, 255, 255, 255, TabFont, "AIMBOT")
+            surface.draw_text(xpos + 125, ypos + 96, 255, 255, 255, 30, TabFont, "ANTI-AIM")
+            surface.draw_filled_rect(xpos + 16, ypos + 116, 90, 3, 210, 7, 91, bpac)
+            surface.draw_text(xpos + 52, ypos + 144, 255, 255, 255, 255, WeaponFont, "Y")
+            surface.draw_text(xpos + 140, ypos + 147, 255, 255, 255, 30, WeaponFont, "a")
+            surface.draw_text(xpos + 225, ypos + 147, 255, 255, 255, 30, WeaponFont, "Z")
+            surface.draw_text(xpos + 314, ypos + 147, 255, 255, 255, 30, WeaponFont, "J")
+            surface.draw_text(xpos + 370, ypos + 147, 255, 255, 255, 30, WeaponFont, "G")
+            surface.draw_text(xpos + 434, ypos + 147, 255, 255, 255, 30, WeaponFont, "W")
+            surface.draw_filled_rect(xpos + 35, ypos + 190, 219, 398, 29, 24, 63, bpac)
+            surface.draw_filled_rect(xpos + 271.5, ypos + 190, 219, 398, 29, 24, 63, bpac)
+            surface.draw_filled_rect(xpos + 508, ypos + 148, 219, 330, 29, 24, 63, bpac)
+            surface.draw_filled_rect(xpos + 508, ypos + 498, 219, 90, 29, 24, 63, bpac)
+            surface.draw_outlined_rect(xpos + 35, ypos + 190, 219, 398, 59, 58, 100, opac)
+            surface.draw_outlined_rect(xpos + 271.5, ypos + 190, 219, 398, 59, 58, 100, opac)
+            surface.draw_outlined_rect(xpos + 508, ypos + 148, 219, 330, 59, 58, 100, opac)
+            surface.draw_outlined_rect(xpos + 508, ypos + 498, 219, 90, 59, 58, 100, opac)
+
             if ActiveSubTab == "AIMBOT" then
                 ActiveWeapon = "AUTO"
-                surface.draw_text(xpos + 160, ypos + 32, 255, 255, 255, 255, TabFont, "RAGE")
-                surface.draw_text(xpos + 29, ypos + 98, 255, 255, 255, 255, TabFont, "AIMBOT")
-                surface.draw_text(xpos + 125, ypos + 101, 255, 255, 255, 30, TabFont, "ANTI-AIM")
-                surface.draw_filled_rect(xpos + 17.5, ypos + 127, 90, 3, 210, 7, 91, bpac)
-                surface.draw_text(xpos + 52, ypos + 144, 255, 255, 255, 255, WeaponFont, "Y")
-                surface.draw_text(xpos + 140, ypos + 147, 255, 255, 255, 30, WeaponFont, "a")
-                surface.draw_text(xpos + 225, ypos + 147, 255, 255, 255, 30, WeaponFont, "Z")
-                surface.draw_text(xpos + 314, ypos + 147, 255, 255, 255, 30, WeaponFont, "J")
-                surface.draw_text(xpos + 370, ypos + 147, 255, 255, 255, 30, WeaponFont, "G")
-                surface.draw_text(xpos + 434, ypos + 147, 255, 255, 255, 30, WeaponFont, "W")
-                surface.draw_filled_rect(xpos + 35, ypos + 190, 219, 398, 29, 24, 63, bpac)
-                surface.draw_filled_rect(xpos + 271.5, ypos + 190, 219, 398, 29, 24, 63, bpac)
-                surface.draw_filled_rect(xpos + 508, ypos + 148, 219, 330, 29, 24, 63, bpac)
-                surface.draw_filled_rect(xpos + 508, ypos + 498, 219, 90, 29, 24, 63, bpac)
-                surface.draw_outlined_rect(xpos + 35, ypos + 190, 219, 398, 59, 58, 82, opac)
-                surface.draw_outlined_rect(xpos + 271.5, ypos + 190, 219, 398, 59, 58, 82, opac)
-                surface.draw_outlined_rect(xpos + 508, ypos + 148, 219, 330, 59, 58, 82, opac)
-                surface.draw_outlined_rect(xpos + 508, ypos + 498, 219, 90, 59, 58, 82, opac)
+
 
                 switch(ActiveWeapon) {
                     AUTO = function()
@@ -680,19 +685,19 @@ local function DrawMenu(x, y, w, h, r, g, b, a)
         end,
 
         VISUALS = function() 
-            surface.draw_text(xpos + 230, ypos + 32, 255, 255, 255, 255, TabFont, "VISUALS")
+            surface.draw_text(xpos + 222, ypos + 37, 255, 255, 255, 255, TabFont, "VISUALS")
         end,
 
         MISC = function()
-            surface.draw_text(xpos + 320, ypos + 32, 255, 255, 255, 255, TabFont, "MISC")
+            surface.draw_text(xpos + 303, ypos + 37, 255, 255, 255, 255, TabFont, "MISC")
         end,
 
         INVENTORY = function()
-            surface.draw_text(xpos + 380, ypos + 32, 255, 255, 255, 255, TabFont, "INVENTORY")
+            surface.draw_text(xpos + 356, ypos + 37, 255, 255, 255, 255, TabFont, "INVENTORY")
         end,
         
         LEGIT = function()
-            surface.draw_text(xpos + 492, ypos + 32, 255, 255, 255, 255, TabFont, "LEGIT")
+            surface.draw_text(xpos + 462, ypos + 37, 255, 255, 255, 255, TabFont, "LEGIT")
         end
     }
 end 
@@ -715,7 +720,7 @@ local function OnFrame()
         rawmouseposX = mousepos[1]
         rawmouseposY = mousepos[2]
         mouseposX = mousepos[1] - xpos
-        mouseposY = mousepos[2] -ypos
+        mouseposY = mousepos[2] - ypos
         client.color_log(123, 194, 21, mouseposX)
         client.color_log(123, 194, 21, mouseposY)
 
@@ -725,7 +730,7 @@ local function OnFrame()
             if mouseposY >= startpos.DRegiony and mouseposY <= endpos.DRegiony and mouseposX >= startpos.DRegionx and mouseposX <= endpos.DRegionx then
                 Dragging()
             end
-            
+
         elseif LClick == false then
             CheckMState = false
         end
