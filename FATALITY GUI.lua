@@ -600,12 +600,11 @@ end
 --end
 
 local function DrawMenu(x, y, w, h, r, g, b, a)
-    surface.draw_outlined_rect(xpos - 1, ypos - 1, 802, 652, 59, 58, 100, bpac)
     surface.draw_filled_rect(xpos, ypos, 800, 650, 19, 14, 33, bpac)
     surface.draw_filled_rect(xpos, ypos, 800, 72, 29, 24, 63, opac)
-    surface.draw_text(xpos + 15, ypos + 30, 255, 0, 0, 150, MainFont, "FATALITY")
-    surface.draw_text(xpos + 17, ypos + 32, 0, 0, 255, 150, MainFont, "FATALITY")
-    surface.draw_text(xpos + 16, ypos + 31, 255, 255, 255, 255, MainFont, "FATALITY")
+    surface.draw_text(xpos + 15, ypos + 32, 255, 0, 0, 150, MainFont, "FATALITY")
+    surface.draw_text(xpos + 17, ypos + 34, 0, 0, 255, 150, MainFont, "FATALITY")
+    surface.draw_text(xpos + 16, ypos + 33, 255, 255, 255, 255, MainFont, "FATALITY")
     surface.draw_filled_gradient_rect(xpos, ypos + 16, 800, 2, 59, 58, 255, gpac, 255, 0, 10, gpac, true)
     surface.draw_filled_rect(xpos, ypos, 800, 16, 29, 24, 63, bpac)
     surface.draw_text(xpos + 160, ypos + 37, 255, 255, 255, RAGEop, TabFont, "RAGE")
@@ -618,33 +617,35 @@ local function DrawMenu(x, y, w, h, r, g, b, a)
     surface.draw_line(xpos + MenuIndc.Ax03, ypos + MenuIndc.Ay03, xpos + MenuIndc.Ax13, ypos + MenuIndc.Ay13, 210, 7, 91, opac)
     surface.draw_line(xpos + MenuIndc.Ax04, ypos + MenuIndc.Ay04, xpos + MenuIndc.Ax14, ypos + MenuIndc.Ay14, 210, 7, 91, opac)
     surface.draw_line(xpos + MenuIndc.Ax05, ypos + MenuIndc.Ay05, xpos + MenuIndc.Ax15, ypos + MenuIndc.Ay15, 210, 7, 91, opac)
+    surface.draw_outlined_rect(xpos, ypos, 801, 650, 59, 58, 100, bpac)
+
 
 
     switch(ActiveTab) {
 
         RAGE = function()
-            surface.draw_filled_rect(xpos + 15, ypos + 88, 770, 550, 29, 24, 63, lpac)
-            surface.draw_outlined_rect(xpos + 15, ypos + 87, 772, 550, 59, 58, 100, opac)
-            surface.draw_filled_rect(xpos + 15, ypos + 87, 772, 33, 59, 58, 100, opac)
-            surface.draw_filled_rect(xpos + 16, ypos + 88, 770, 31, 29, 24, 63, bpac)
+            surface.draw_filled_rect(xpos + 15, ypos + 88, 770, 547, 29, 24, 63, lpac)
+            surface.draw_outlined_rect(xpos + 15, ypos + 88, 770, 547, 59, 58, 100, opac)
+            surface.draw_filled_rect(xpos + 15, ypos + 88, 770, 31, 29, 24, 63, bpac)
+            surface.draw_outlined_rect(xpos + 15, ypos + 88, 770, 31, 59, 58, 100, opac)
             surface.draw_text(xpos + 160, ypos + 37, 255, 255, 255, 255, TabFont, "RAGE")
             surface.draw_text(xpos + 30, ypos + 94, 255, 255, 255, 255, TabFont, "AIMBOT")
             surface.draw_text(xpos + 125, ypos + 96, 255, 255, 255, 30, TabFont, "ANTI-AIM")
-            surface.draw_filled_rect(xpos + 16, ypos + 116, 90, 3, 210, 7, 91, bpac)
-            surface.draw_text(xpos + 52, ypos + 144, 255, 255, 255, 255, WeaponFont, "Y")
-            surface.draw_text(xpos + 140, ypos + 147, 255, 255, 255, 30, WeaponFont, "a")
-            surface.draw_text(xpos + 225, ypos + 147, 255, 255, 255, 30, WeaponFont, "Z")
-            surface.draw_text(xpos + 314, ypos + 147, 255, 255, 255, 30, WeaponFont, "J")
-            surface.draw_text(xpos + 370, ypos + 147, 255, 255, 255, 30, WeaponFont, "G")
-            surface.draw_text(xpos + 434, ypos + 147, 255, 255, 255, 30, WeaponFont, "W")
-            surface.draw_filled_rect(xpos + 35, ypos + 190, 219, 398, 29, 24, 63, bpac)
-            surface.draw_filled_rect(xpos + 271.5, ypos + 190, 219, 398, 29, 24, 63, bpac)
-            surface.draw_filled_rect(xpos + 508, ypos + 148, 219, 330, 29, 24, 63, bpac)
-            surface.draw_filled_rect(xpos + 508, ypos + 498, 219, 90, 29, 24, 63, bpac)
-            surface.draw_outlined_rect(xpos + 35, ypos + 190, 219, 398, 59, 58, 100, opac)
-            surface.draw_outlined_rect(xpos + 271.5, ypos + 190, 219, 398, 59, 58, 100, opac)
-            surface.draw_outlined_rect(xpos + 508, ypos + 148, 219, 330, 59, 58, 100, opac)
-            surface.draw_outlined_rect(xpos + 508, ypos + 498, 219, 90, 59, 58, 100, opac)
+            surface.draw_filled_rect(xpos + 16, ypos + 115, 90, 3, 210, 7, 91, bpac)
+            surface.draw_text(xpos + 53, ypos + 130, 255, 255, 255, 255, WeaponFont, "Y")
+            surface.draw_text(xpos + 140, ypos + 133, 255, 255, 255, 30, WeaponFont, "a")
+            surface.draw_text(xpos + 225, ypos + 133, 255, 255, 255, 30, WeaponFont, "Z")
+            surface.draw_text(xpos + 314, ypos + 133, 255, 255, 255, 30, WeaponFont, "J")
+            surface.draw_text(xpos + 370, ypos + 133, 255, 255, 255, 30, WeaponFont, "G")
+            surface.draw_text(xpos + 434, ypos + 133, 255, 255, 255, 30, WeaponFont, "W")
+            surface.draw_filled_rect(xpos + 31, ypos + 172, 236, 447, 29, 24, 63, bpac)
+            surface.draw_filled_rect(xpos + 282.5, ypos + 172, 236, 447, 29, 24, 63, bpac)
+            surface.draw_filled_rect(xpos + 534, ypos + 134, 236, 371, 29, 24, 63, bpac)
+            surface.draw_filled_rect(xpos + 534, ypos + 519, 236, 100, 29, 24, 63, bpac)
+            surface.draw_outlined_rect(xpos + 31, ypos + 172, 236, 447, 59, 58, 100, opac)
+            surface.draw_outlined_rect(xpos + 282.5 , ypos + 172, 236, 447, 59, 58, 100, opac)
+            surface.draw_outlined_rect(xpos + 534, ypos + 134, 236, 371, 59, 58, 100, opac)
+            surface.draw_outlined_rect(xpos + 534, ypos + 519, 236, 100, 59, 58, 100, opac)
 
             if ActiveSubTab == "AIMBOT" then
                 ActiveWeapon = "AUTO"
@@ -652,32 +653,32 @@ local function DrawMenu(x, y, w, h, r, g, b, a)
 
                 switch(ActiveWeapon) {
                     AUTO = function()
-                        surface.draw_filled_rect(xpos + 35, ypos + 175, 90, 3, 210, 7, 91, bpac)
+                        surface.draw_filled_rect(xpos + 32, ypos + 150, 90, 3, 210, 7, 91, bpac)
                        -- client.color_log(123, 194, 21, "AUTO")
                     end,
                     
                     SCOUT = function()
-                        surface.draw_filled_rect(xpos + 130, ypos + 175, 90, 3, 210, 7, 91, bpac)
+                        surface.draw_filled_rect(xpos + 130, ypos + 150, 90, 3, 210, 7, 91, bpac)
                         client.color_log(123, 194, 21, "SCOUT")
                     end,
 
                     AWP = function()
-                        surface.draw_filled_rect(xpos + 215, ypos + 175, 90, 3, 210, 7, 91, bpac)
+                        surface.draw_filled_rect(xpos + 215, ypos + 150, 90, 3, 210, 7, 91, bpac)
                         client.color_log(123, 194, 21, "AWP")
                     end,
 
                     HEAVY = function()
-                        surface.draw_filled_rect(xpos + 300, ypos + 175, 90, 3, 210, 7, 91, bpac)
+                        surface.draw_filled_rect(xpos + 300, ypos + 150, 90, 3, 210, 7, 91, bpac)
                         client.color_log(123, 194, 21, "HEAVY")
                     end,
 
                     PISTOL = function()
-                        surface.draw_filled_rect(xpos + 355, ypos + 175, 90, 3, 210, 7, 91, bpac)
+                        surface.draw_filled_rect(xpos + 355, ypos + 150, 90, 3, 210, 7, 91, bpac)
                         client.color_log(123, 194, 21, "PISTOL")
                     end,
 
                     RIFLE = function()
-                        surface.draw_filled_rect(xpos + 415, ypos + 175, 90, 3, 210, 7, 91, bpac)
+                        surface.draw_filled_rect(xpos + 415, ypos + 150, 90, 3, 210, 7, 91, bpac)
                         client.color_log(123, 194, 21, "RIFLE")
                     end
                 }
