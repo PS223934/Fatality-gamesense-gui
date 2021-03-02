@@ -1,14 +1,17 @@
 local surface = require "gamesense/surface"
+local database_read = database.read
+local database_write = database.write
 local MainFont = surface.create_font("JosefinSans-VariableFont_wght", 26, 900, 0x010)
 local TabFont = surface.create_font("JosefinSans-VariableFont_wght", 17, 600, 0x010)
 local InSubFont = surface.create_font("JosefinSans-VariableFont_wght", 10, 500, 0x010)
 local WeaponFont = surface.create_font("astriumwep", 21, 1, 0x010)
-local xpos = 200
-local ypos = 200
+local xpos = database_read("previous_posX") or 200
+local ypos = database_read("previous_posY") or 200
 local opac = 0
 local bpac = 0
 local lpac = 0 
 local gpac = 30
+
 
 local RageReference = {
 
@@ -78,6 +81,7 @@ Ax05 = 485, Ay05 = 55, Ax15 = 485, Ay15 = 55
 HoverA = false  
 gstateb = false
 CheckMState = false
+dragging = false
 
 RAGEop = 30
 VISUALSop = 30
@@ -89,7 +93,7 @@ ActiveTab = "RAGE"
 ActiveSubTab = "AIMBOT"
 ActiveHover = "NONE"
 
-switch = function(check)                                        --P4ST3D FR0M https://pastebin.com/MxhirT7Z
+switch = function(check)                                        
     return function(cases)
         if type(cases[check]) == "function" then
             return cases[check]()
@@ -99,6 +103,17 @@ switch = function(check)                                        --P4ST3D FR0M ht
     end
 end
 
+local function intersect(x, y, w, h, debug) 
+    local mousepos = { ui.mouse_position() }
+    rawmouseposX = mousepos[1]
+    rawmouseposY = mousepos[2]
+    debug = debug or false
+    if debug then 
+        surface.draw_filled_rect(x, y, w, h, 255, 0, 0, 50)
+    end
+
+    return rawmouseposX >= x and rawmouseposX <= x + w and rawmouseposY >= y and rawmouseposY <= y + h
+end
 
 local function BackgroundAnimation()
     if bpac == 255 then
@@ -452,9 +467,26 @@ end
 
 
 local function Dragging()
-    xpos = rawmouseposX - mouseposX 
-    ypos = rawmouseposY - mouseposY
+    local mousepos = { ui.mouse_position() }
+    rawmouseposX = mousepos[1]
+    rawmouseposY = mousepos[2]
+    local LClick = client.key_state(0x01)
 
+        if dragging and not LClick then
+            dragging = false
+        end
+
+        if dragging and LClick then
+            xpos = rawmouseposX - xdrag
+            ypos = rawmouseposY - ydrag
+        end
+
+        if intersect(xpos - startpos.DRegionx, ypos - startpos.DRegiony, 800, 30, false) and LClick then 
+            dragging = true
+            client.color_log(123, 194, 21, "dragging")
+            xdrag = rawmouseposX - xpos
+            ydrag = rawmouseposY - ypos
+        end
 end
 
 local function HoverAnimationA()
@@ -714,6 +746,7 @@ local function OnFrame()
         MainHover()
         ClickAnimationA()
         CheckAnimState() 
+        Dragging()
 
 
         local LClick = client.key_state(0x01)
@@ -722,16 +755,11 @@ local function OnFrame()
         rawmouseposY = mousepos[2]
         mouseposX = mousepos[1] - xpos
         mouseposY = mousepos[2] - ypos
-        client.color_log(123, 194, 21, mouseposX)
-        client.color_log(123, 194, 21, mouseposY)
+        --client.color_log(123, 194, 21, mouseposX)
+        --client.color_log(123, 194, 21, mouseposY)
 
         if LClick == true and CheckMState == false then
             ChangeActiveTab()
-
-            if mouseposY >= startpos.DRegiony and mouseposY <= endpos.DRegiony and mouseposX >= startpos.DRegionx and mouseposX <= endpos.DRegionx then
-                Dragging()
-            end
-
         elseif LClick == false then
             CheckMState = false
         end
@@ -763,3 +791,8 @@ local function OnFrame()
 end
 
 client.set_event_callback("paint_ui", OnFrame)
+
+client.set_event_callback('shutdown', function()
+    database_write("previous_posX", xpos)
+    database_write("previous_posY", ypos)
+end)
